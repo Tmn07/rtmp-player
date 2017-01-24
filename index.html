@@ -1,26 +1,46 @@
-<html>  
-  <head>  
-  <title>视频直播</title>  
-  <meta charset="utf-8">  
-  <link href="./js/video-js.css" rel="stylesheet">  
-  <!-- If you'd like to support IE8 -->  
-  <script src="./js/videojs-ie8.min.js"></script>  
-</head>  
-<body>  
-  <h1>直播间</h1>  
- <video id="my-video" class="video-js" controls preload="auto" width="640" height="300"  
- poster="./fm.jpg" data-setup="{}">  
-    <!-- <source src="rtmp://live.hkstv.hk.lxdns.com/live/hks" type="rtmp/flv">   -->
-    <source src="rtmp://123.206.196.117:1935/myapp/" type="rtmp/flv">  
-    <source src="rtmp://203.207.99.19:1935/live/CCTV5" type="rtmp/flv">  
-
-    <!-- 如果上面的rtmp流无法播放，就播放hls流 -->  
-    <!-- <source src="http://10.10.5.119/live/livestream.m3u8" type='application/x-mpegURL'> -->  
-    <p class="vjs-no-js">播放视频需要启用 JavaScript，推荐使用支持HTML5的浏览器访问。  
-      To view this video please enable JavaScript, and consider upgrading to a web browser that  
-      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>  
-    </p>  
- </video>  
- <script src="./js/video.js"></script>  
-</body>  
-</html>  
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+    <link href="./css/video.css" rel="stylesheet">
+    <script src="./js/video.js"></script>
+    <script src="./js/videojs-live.js"></script>
+  </head>
+    
+  <body>  
+    <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="800" height="400" poster="./fm.jpg" 
+  data-setup='{}'>
+    <!-- <source src="../hls/.m3u8" type="application/x-mpegURL"> -->
+    <source src="rtmp://127.0.0.1:1935/myapp/" type="rtmp/flv"> 
+  </video>
+    <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+      
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+    
+      socket.on('chat message', function(msg){
+        $('#messages').append($('<li>').text(msg));
+      });
+    </script>
+  </body>
+</html>
