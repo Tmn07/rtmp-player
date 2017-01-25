@@ -2,44 +2,53 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
-    </style>
     <link href="./css/video.css" rel="stylesheet">
+    <link href="./css/app.css" rel="stylesheet">
     <script src="./js/video.js"></script>
     <script src="./js/videojs-live.js"></script>
   </head>
     
   <body>  
-    <video id="my_video_1" class="video-js vjs-default-skin" controls preload="auto" width="800" height="400" poster="./fm.jpg" 
-  data-setup='{}'>
-    <!-- <source src="../hls/.m3u8" type="application/x-mpegURL"> -->
-    <source src="rtmp://127.0.0.1:1935/myapp/" type="rtmp/flv"> 
-  </video>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="content-box">
       
+      <div class="chat-panel">
+        <form action="" class="chat-dispatch" >
+           <textarea  id="m" autocomplete="off" ></textarea> <button>发送</button>
+        </form>
+        <ul id="messages" class="chat-container"></ul>
+        
+      </div>
+
+      <div class="video-panel">
+        <video id="my_video_1" class="video-js vjs-default-skin " controls preload="auto" width="800" height="400" poster="./fm.jpg" data-setup='{}'>
+      
+      <!-- <source src="../hls/.m3u8" type="application/x-mpegURL"> -->
+          <source src="rtmp://127.0.0.1:1935/myapp/" type="rtmp/flv"> 
+        </video>
+      </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
       $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
+        if($('#m').val() ) {
+          socket.emit('chat message', $('#m').val());
+          $('#m').val('');
+          return false;
+        }
         return false;
       });
     
       socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
+        //var span = $('<span>').text(msg);
+        //$('#messages').append($('<li>').text(msg));
+        $('#messages').append("<li><span class='user-name'>匿名用户:</span> <span class='message'>"+msg+"</span></li>");
+
+        document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight
+
+
       });
     </script>
   </body>
