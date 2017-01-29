@@ -44,7 +44,7 @@
       socket.on('chat message', function(msg){
         //var span = $('<span>').text(msg);
         //$('#messages').append($('<li>').text(msg));
-        $('#messages').append("<li><span class='user-name'>匿名用户:</span> <span class='message'>"+msg+"</span></li>");
+        $('#messages').append("<li><span class='user-name'>游客"+msg.substr(0,4).toUpperCase()+"：</span> <span class='message'>"+msg.substr(5)+"</span></li>");
 
         document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight
 

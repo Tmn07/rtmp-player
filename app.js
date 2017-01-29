@@ -13,6 +13,9 @@ app.get('/', function(req, res){
 });
 
 io.on('connection', function(socket){
+  console.log(socket.id);
+  // socket.name = socket.remoteAddress + ':' + socket.remotePort;    
+  // console.log('Hi ' + socket.name + '!\n'); 
   console.log('a user connected');
 
   socket.on('disconnect', function(){
@@ -21,8 +24,10 @@ io.on('connection', function(socket){
     
   socket.on('chat message', function(msg){
     console.log('message: ' + msg);
+    // console.log(socket.id);
 
-    io.emit('chat message', msg);
+    io.emit('chat message', socket.id.substr(0,4)+":"+msg);
+    // io.emit('chat message', socket.id);
   });
 
 });
