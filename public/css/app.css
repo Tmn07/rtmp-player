@@ -42,7 +42,10 @@ body { font: 13px Helvetica, Arial; }
 	background: #eee; 
 }*/
 .chat-container .user-name{
-	color: #04c073;
+	color: #298e48;
+}
+.chat-container .self{
+	color: #0472c0;
 }
 
 .chat-container .message{

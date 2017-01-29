@@ -25,9 +25,7 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     console.log('message: ' + msg);
     // console.log(socket.id);
-
     io.emit('chat message', socket.id.substr(0,4)+":"+msg);
-    // io.emit('chat message', socket.id);
   });
 
 });

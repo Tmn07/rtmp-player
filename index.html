@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>MyLive SHOW</title>
     <link href="./css/video.css" rel="stylesheet">
     <link href="./css/app.css" rel="stylesheet">
     <script src="./js/video.js"></script>
@@ -32,9 +32,11 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
       var socket = io();
+
       $('form').submit(function(){
         if($('#m').val() ) {
           socket.emit('chat message', $('#m').val());
+          $('#messages').append("<li><span class='self'>Yourself：</span> <span class='message'>"+$('#m').val()+"</span></li>");
           $('#m').val('');
           return false;
         }
@@ -42,13 +44,10 @@
       });
     
       socket.on('chat message', function(msg){
-        //var span = $('<span>').text(msg);
-        //$('#messages').append($('<li>').text(msg));
-        $('#messages').append("<li><span class='user-name'>游客"+msg.substr(0,4).toUpperCase()+"：</span> <span class='message'>"+msg.substr(5)+"</span></li>");
-
+        if(socket.id.substr(0,4)!=msg.substr(0,4)){
+          $('#messages').append("<li><span class='user-name'>游客"+msg.substr(0,4).toUpperCase()+"：</span> <span class='message'>"+msg.substr(5)+"</span></li>");
+        }
         document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight
-
-
       });
     </script>
   </body>

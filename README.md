@@ -18,7 +18,17 @@ node app
 <source src="../hls/.m3u8" type="application/x-mpegURL">
 <source src="rtmp://127.0.0.1:1935/myapp/" type="rtmp/flv"> 
 ```
+新版聊天：
+
+![](doc/newchat.png)
+
+旧版演示：
+
 ![](./doc/r.jpg)
+
+### todo
+
+美化前端。发送字段的检验。管理功能（“全体禁言”等...）
 
 ### 参考链接
 
